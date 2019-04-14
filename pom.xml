@@ -27,6 +27,15 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+   <distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>nexus</id>
+			<name>maven-repo</name>
+			<url>http://172.16.1.101:8081/repository/maven-repo/</url>
+			<layout>default</layout>
+		</repository>
+   </distributionManagement>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.3</version>
@@ -70,15 +79,6 @@
    <nexusUrl>http://172.16.1.101:8081/nexus/</nexusUrl>       
    <skipStaging>true</skipStaging> 
    </configuration>
-   <distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>nexus</id>
-			<name>maven-repo</name>
-			<url>http://172.16.1.101:8081/repository/maven-repo/</url>
-			<layout>default</layout>
-		</repository>
-   </distributionManagement>
    </plugin>      
             </plugins>
         </pluginManagement>
