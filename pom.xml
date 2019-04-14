@@ -27,7 +27,7 @@
 			<uniqueVersion>false</uniqueVersion>
 			<id>nexus</id>
 			<name>maven-repo</name>
-			<url>http://172.16.1.101:8081/maven-repo/</url>
+			<url>http://172.16.1.101:8081/repository</url>
 			<layout>default</layout>
 		</repository>
    </distributionManagement>
