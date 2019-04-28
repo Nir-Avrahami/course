@@ -1,0 +1,33 @@
+node {
+   def mvnHome
+   stage('Pull From SCM') {
+      git 'https://github.com/Nir-Avrahami/course.git'
+      mvnHome = tool '3.6.0'
+   }
+   stage('Build') {
+         sh "mvn package"
+      }
+   stage('Deploy2Tomcat') {
+         sh  "cp /var/lib/jenkins/workspace/Homework/web/target/*.war /var/lib/tomcat/webapps"
+      }
+     
+   stage('Deploy2Nexus') {
+         sh "mvn deploy"
+      }
+   stage('Docker Build Image') {
+writeFile file: "Dockerfile", text: """
+			FROM tomcat:8.0.20-jre8
+			COPY ./web/target/*.war /usr/local/tomcat/webapps/
+		"""
+		sh "docker build -t time-tracker:${env.BUILD_ID} ."
+
+		sh """
+		  docker login -u admin -p admin123 172.16.1.101:8088/repository/time-tracker:latest
+		  docker tag time-tracker:${env.BUILD_ID} 172.16.1.101:8088/repository/time-tracker:latest
+		  docker push 172.16.1.101:8088/repository/time-tracker:latest
+		"""
+   }
+   stage('Docker Run') {
+         sh "docker run -d --name ${env.BUILD_ID} -p 8085:8080 172.16.1.101:8088/repository/time-tracker "
+      }
+}
